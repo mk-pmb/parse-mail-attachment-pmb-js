@@ -28,6 +28,8 @@ Returns a dictionary with these entries:
 * `cType`: The MIME type, without parameters.
 * `ctDetails`: A dictionary object of the content type parameters,
   if there were any. Otherwise, `false`.
+* `body`: The body, as a string. Raw except line terminators are normalized.
+
 
 
 ### firstHeader(headers, key, dflt, rgx)
@@ -45,6 +47,7 @@ with the header value as its only arument. If the result from exec is
 truthy, it is returned; otherwise, returns `false`.
 
 
+
 ### parseAttachment(raw, opt)
 
 `raw` should be a buffer or a string.
@@ -58,7 +61,9 @@ truthy, it is returned; otherwise, returns `false`.
 Returns a dictionary with these entries:
 
 * All the ones from `splitParseHeaders()`.
-* `fileName` if one was found.
+* `fileName`: (string) Original filename if one was found.
+* `origBodyEncoding`: (string) The body encoding name.
+* `body`: The decoded body.
 
 
 
