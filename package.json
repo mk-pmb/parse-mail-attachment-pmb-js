@@ -1,0 +1,41 @@
+{ "name": "parse-mail-attachment-pmb",
+  "version": "0.1.0",
+  "description": "Parse a single email attachment into meta data and body.",
+  "keywords": [
+    "attachment",
+    "email",
+    "mail",
+    "mime",
+    "parser"
+  ],
+
+  "author": "M.K. (https://github.com/mk-pmb)",
+  "homepage": "https://github.com/mk-pmb/parse-mail-attachment-pmb-js/#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mk-pmb/parse-mail-attachment-pmb-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mk-pmb/parse-mail-attachment-pmb-js/issues"
+  },
+  "contributors": [],
+
+  "private": false, "license": "ISC",
+
+  "main": "matt.mjs",
+  "scripts": { "test": "nodejs test/all.js" },
+  "directories": { "test": "test" },
+
+  "dependencies": {
+    "getown": "^1.0.0",
+    "libmime": "^5.0.0",
+    "split-string-or-buffer-once-pmb": "^1.0.0",
+    "typechecks-pmb": "^0.200620.3",
+    "vtry": "^1.0.6"
+  },
+  "devDependencies": {
+  },
+
+
+  "npm vs. BOM = Unexpected token": "-*- coding: UTF-8 -*-"
+}
