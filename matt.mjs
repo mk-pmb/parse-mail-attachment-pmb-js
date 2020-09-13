@@ -15,8 +15,10 @@ const dfDeco = {
 
 const EX = {
 
+  normText(raw) { return raw.toString('latin1').replace(/\r/g); },
+
   splitParseHeaders(raw) {
-    let tmp = splitOnce('\n\n', raw.toString('latin1').replace(/\r/g));
+    let tmp = splitOnce('\n\n', EX.normText(raw));
     const body = (tmp[1] || '');
     tmp = tmp[0].replace(/\n\s+/g, ' ');
     const head = libMime.decodeHeaders(tmp);
