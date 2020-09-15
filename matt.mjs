@@ -20,12 +20,14 @@ const dfDeco = {
 
 const EX = {
 
-  normText(raw) { return raw.toString('latin1').replace(/\r/g); },
+  normText(raw) { return raw.toString('latin1').replace(/\r/g, ''); },
 
   splitParseHeaders(raw) {
-    let tmp = splitOnce('\n\n', EX.normText(raw));
+    let tmp = EX.normText(raw);
+    console.debug({ tmp });
+    tmp = (splitOnce('\n\n', tmp) || [tmp]);
     const body = (tmp[1] || '');
-    tmp = tmp[0].replace(/\n\s+/g, ' ');
+    tmp = (tmp[0] || '').replace(/\n\s+/g, ' ');
     const head = libMime.decodeHeaders(tmp);
     const firstHeader = EX.firstHeader.bind(null, head);
     tmp = libMime.parseHeaderValue(EX.firstHeader(head, 'content-type', ''));
