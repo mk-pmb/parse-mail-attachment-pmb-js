@@ -24,7 +24,6 @@ const EX = {
 
   splitParseHeaders(raw) {
     let tmp = EX.normText(raw);
-    console.debug({ tmp });
     tmp = (splitOnce('\n\n', tmp) || [tmp]);
     const body = (tmp[1] || '');
     tmp = (tmp[0] || '').replace(/\n\s+/g, ' ');
