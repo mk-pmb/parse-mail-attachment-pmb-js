@@ -1,22 +1,11 @@
 // -*- coding: utf-8, tab-width: 2 -*-
 
 import splitOnce from 'split-string-or-buffer-once-pmb';
-import mustBe from 'typechecks-pmb/must-be';
 import libMime from 'libmime';
-import quotedPrintable from 'quoted-printable';
 import getOwn from 'getown';
-import vTry from 'vtry';
+import mustBe from 'typechecks-pmb/must-be';
 
-
-function unB64(x) { return Buffer.from(x, 'base64'); }
-function unQP(x) { return quotedPrintable.decode(x); }
-
-const dfDeco = {
-  '': String,
-  '8bit': String,
-  base64: unB64,
-  'quoted-printable': unQP,
-};
+import codecs from './codecs';
 
 
 const EX = {
@@ -50,21 +39,30 @@ const EX = {
     return val;
   },
 
-  defaultBodyContentDecoders() { return dfDeco; },
+  defaultBodyContentDecoders() { return codecs.dfDeco; },
+  defaultBodyCharsetDecoders() { return codecs.dfCharset; },
 
   parseAttachment(raw, opt) {
-    const info = EX.splitParseHeaders(raw);
-    const enc = EX.firstHeader(info.head, 'content-transfer-encoding', '');
-    const deco = mustBe.tProp('Attachmend body decoder for ',
-      ((opt || false).bodyContentDecoders || dfDeco), 'fun', enc);
-    const body = vTry(deco, 'Decode attachment body using ' + enc)(info.body);
-    delete info.body;
+    const safeOpt = (opt || false);
+    const att = EX.splitParseHeaders(raw);
+    let { body } = att;
+    delete att.body;
+
+    const enc = EX.firstHeader(att.head, 'content-transfer-encoding',
+      '').toLowerCase();
+    body = codecs.tryDecode(body, 'Decode attachment body using ', enc,
+      (safeOpt.bodyContentDecoders || codecs.dfDeco));
+    const chs = (att.ctDetails.charset || '').toLowerCase();
+    body = codecs.tryDecode(body, 'Decode attachment body charset ', chs,
+      (safeOpt.bodyCharsetDecoders || codecs.dfCharset));
+
     return {
-      fileName: info.ctDetails.name,
-      cType: info.cType,
+      fileName: att.ctDetails.name,
+      cType: att.cType,
       origBodyEncoding: enc,
+      origBodyCharset: chs,
       body,
-      ...info,
+      ...att,
     };
   },
 
