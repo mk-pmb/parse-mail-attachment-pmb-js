@@ -17,7 +17,7 @@ This module exports an object that holds these functions:
 
 ### splitParseHeaders(raw)
 
-`raw` should be a buffer or a string.
+`raw` should be a Buffer or "binary" (latin-1) String.
 
 Returns a dictionary with these entries:
 
@@ -50,7 +50,7 @@ truthy, it is returned; otherwise, returns `false`.
 
 ### parseAttachment(raw, opt)
 
-`raw` should be a buffer or a string.
+`raw` should be a Buffer or "binary" (latin-1) String.
 
 `opt` is an optional options object that supports these keys:
 
