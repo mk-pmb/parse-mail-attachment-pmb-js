@@ -13,6 +13,7 @@ function unQP(x) { return quotedPrintable.decode(x); }
 
 const dfDeco = {
   '': String,
+  '8bit': String,
   base64: unB64,
   'quoted-printable': unQP,
 };
